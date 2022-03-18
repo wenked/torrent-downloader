@@ -56,23 +56,39 @@ def downloadTorrent(magnet_link):
 
 
 def main():
+    continue_download = True
     try:
-        search_query = input(Fore.GREEN + 'Buscar torrent: ')
-        formated_query = search_query.replace(' ', '%20')
-        links_list = getLinks(formated_query)
-        if links_list:
-            links_list_keys =  list(links_list.keys())
-            questions = [
-            inquirer.List('links',
-                message="Torrents encontrados:",
-                choices=links_list_keys,
-            ),
-            ]
-            answers = inquirer.prompt(questions)
-            magnet_link = getMagnetLink(links_list[answers['links']])
-            downloadTorrent(magnet_link)
+        while(continue_download):
+            search_query = input(Fore.GREEN + 'Buscar torrent: ')
+            formated_query = search_query.replace(' ', '%20')
+            links_list = getLinks(formated_query)
+            if links_list:
+                links_list_keys =  list(links_list.keys())
+                questions = [
+                inquirer.List('links',
+                    message="Torrents encontrados:",
+                    choices=links_list_keys,
+                ),
+                ]
+                answers = inquirer.prompt(questions)
+                magnet_link = getMagnetLink(links_list[answers['links']])
+                downloadTorrent(magnet_link)
+                continue_question = [
+                inquirer.List('links',
+                    message="Deseja realizar outra busca ?",
+                    choices=['Sim', 'Não'],
+                ),
+                ]
+                answers = inquirer.prompt(continue_question)
+                
+                if(answers['links'] == 'Não'):
+                    continue_download = False
+                if(answers['links'] == 'Sim'):
+                    continue_download = True
+            else:
+                print('Magnet link inválido')
         else:
-            print('Magnet link inválido')   
+            print('Finalizando...')  
     except Exception as e:
         print(f'Error: {e}')
         
