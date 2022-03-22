@@ -19,7 +19,6 @@ def getMagnetLink(link):
     print(f'Link: {link}')        
     torrent_page = requests.get(link).content
     soup = BeautifulSoup(torrent_page, 'html.parser')
-    
     magnet_link = soup.find_all(href=re.compile("magnet:"))        
     print('Magnet Link:',magnet_link[0].get('href'))
     return magnet_link[0].get('href')
