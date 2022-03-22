@@ -1,0 +1,5 @@
+python-qbittorrent
+python-dotenv
+colorama
+inquirer
+beautifulsoup4

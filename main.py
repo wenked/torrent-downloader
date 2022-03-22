@@ -19,6 +19,7 @@ def getMagnetLink(link):
     print(f'Link: {link}')        
     torrent_page = requests.get(link).content
     soup = BeautifulSoup(torrent_page, 'html.parser')
+    
     magnet_link = soup.find_all(href=re.compile("magnet:"))        
     print('Magnet Link:',magnet_link[0].get('href'))
     return magnet_link[0].get('href')
@@ -45,7 +46,7 @@ def getLinks(search_term):
 
 def downloadTorrent(magnet_link):
     print('Iniciando torrent download...')
-    qb = Client("http://127.0.0.1:8081/")
+    qb = Client(os.dotenv("QB_ADRESS"))
     qb.login(os.getenv('QB_LOGIN'),os.getenv('QB_PASSWORD'))
     download = qb.download_from_link(magnet_link,savepath=os.getenv('DOWNLOAD_PATH'))
     if download == 'Fails.':
