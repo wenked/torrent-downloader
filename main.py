@@ -7,6 +7,7 @@ from colorama import Fore
 import inquirer
 from dotenv import load_dotenv
 import os
+import subprocess
 
 load_dotenv()
 
@@ -46,7 +47,7 @@ def downloadTorrent(magnet_link):
     print('Iniciando torrent download...')
     qb = Client("http://127.0.0.1:8081/")
     qb.login(os.getenv('QB_LOGIN'),os.getenv('QB_PASSWORD'))
-    download = qb.download_from_link(magnet_link,savepath=os.getenv('MYPATH'))
+    download = qb.download_from_link(magnet_link,savepath=os.getenv('DOWNLOAD_PATH'))
     if download == 'Fails.':
         print('Download falhou')
     if download == 'Ok.':
@@ -72,6 +73,8 @@ def main():
                 ]
                 answers = inquirer.prompt(questions)
                 magnet_link = getMagnetLink(links_list[answers['links']])
+                
+                subprocess.Popen(os.getenv('QB_PATH'))
                 downloadTorrent(magnet_link)
                 continue_question = [
                 inquirer.List('links',
