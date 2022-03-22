@@ -45,7 +45,7 @@ def getLinks(search_term):
 
 def downloadTorrent(magnet_link):
     print('Iniciando torrent download...')
-    qb = Client(os.dotenv("QB_ADRESS"))
+    qb = Client(os.getenv("QB_ADRESS"))
     qb.login(os.getenv('QB_LOGIN'),os.getenv('QB_PASSWORD'))
     download = qb.download_from_link(magnet_link,savepath=os.getenv('DOWNLOAD_PATH'))
     if download == 'Fails.':
